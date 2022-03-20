@@ -5,6 +5,11 @@ import { Header } from '../components/Header';
 import { Task, TasksList } from '../components/TasksList';
 import { TodoInput } from '../components/TodoInput';
 
+export type EditTaskArgs = {
+  taskId: number;
+  taskNewTitle: string
+}
+
 
 export function Home() {
 
@@ -38,7 +43,7 @@ export function Home() {
     setTasks(updatedTasks)
   }
 
-  function handleEditTask(taskId: number, taskNewTitle: string){
+  function handleEditTask({taskId, taskNewTitle}: EditTaskArgs){
     const updatedTasks = tasks.map(task => ({...task}))
     
     const task = updatedTasks.find(task => task.id === taskId)
@@ -53,20 +58,19 @@ export function Home() {
   
 
   function handleRemoveTask(id: number) {
-    // Alert.alert('Remover item', 'Tem certeza que você deseja remover esse item?',
-    //   [
-    //     {
-    //       text: "Não",
-    //       onPress:()=> console.log()
-    //     },
+    Alert.alert('Remover item', 'Tem certeza que você deseja remover esse item?',
+      [
+        {
+          text: "Não",
+          onPress:()=> console.log()
+        },
        
-    //     {
-    //       text: "Sim",
-    //       onPress:()=> setTasks(oldTasks => oldTasks.filter(task => task.id !== id))
-    //     }
-    // ])
+        {
+          text: "Sim",
+          onPress:()=> setTasks(oldTasks => oldTasks.filter(task => task.id !== id))
+        }
+    ])
     
-    setTasks(oldTasks => oldTasks.filter(task => task.id !== id))
   }
 
   return (
@@ -79,7 +83,7 @@ export function Home() {
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
         removeTask={handleRemoveTask} 
-        //editTask={handleEditTask}
+        editTask={handleEditTask}
       />
     </View>
   )
